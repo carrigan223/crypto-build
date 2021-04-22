@@ -1,5 +1,6 @@
 const Block = require("./block");
 const { GENESIS_DATA } = require("./config");
+const cryptoHash = require("./crypto-hash");
 
 //describe is a jest function to test
 //it takes to params, the name and then a callback function
@@ -54,6 +55,12 @@ describe("Block", () => {
 
     it("sets a timestamp", () => {
       expect(minedBlock.timestamp).not.toEqual(undefined);
+    });
+
+    it("creates a sha256 hash based on the proper inputs", () => {
+      expect(minedBlock.hash).toEqual(
+        cryptoHash(minedBlock.timestamp, lastBlock.hash, data)
+      );
     });
   });
 });

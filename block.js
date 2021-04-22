@@ -1,4 +1,5 @@
-const { GENESIS_DATA } = require("./config");
+const { GENESIS_DATA } = require("./config");//first block hardcoded data
+const cryptoHash = require("./crypto-hash");//hashing function
 
 //creating class instance of a block
 //contructor arguments as object to give us the ability to accesswith key
@@ -15,11 +16,15 @@ class Block {
   }
 
   static mineBlock({ lastBlock, data }) {
-      return new Block({
-          timestamp: Date.now(),
-          lastHash: lastBlock.hash,
-          data
-      });
+    const timestamp = Date.now();
+    const lastHash = lastBlock.hash;
+
+    return new Block({
+      timestamp,
+      lastHash,
+      data,
+      hash: cryptoHash(timestamp, lastHash, data),
+    });
   }
 }
 
