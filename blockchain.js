@@ -28,13 +28,13 @@ class Blockchain {
       const block = chain[i]; //current block
       const actualLastHash = chain[i - 1].hash;
       const { timestamp, hash, lastHash, data } = block; // destructuring block to access values
-
-      if (actualLastHash !== hash) {
+      //comparing lastHash to what it should be
+      if (actualLastHash !== lastHash) {
         return false;
       }
-
+      //creating the hash to validate against
       const validHash = cryptoHash(timestamp, lastHash, data);
-
+      //making sure our hash is correct
       if (hash !== validHash) {
         return false;
       }
