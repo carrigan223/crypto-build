@@ -1,13 +1,13 @@
 {
   "name": "crypto_chain",
   "version": "1.0.0",
-  "description": "",
+  "description": "TBD crypto",
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll"
   },
   "keywords": [],
-  "author": "",
+  "author": "Andrew Carrigan",
   "license": "ISC",
   "devDependencies": {
     "jest": "^23.6.0"
