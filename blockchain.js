@@ -2,7 +2,14 @@
 //importing Block class from block.js
 const Block = require("./block");
 const cryptoHash = require("./crypto-hash");
-//starting the chain with the genesis block
+
+/* 
+  Class instance of the blockchain containg the true chain at this.chain,
+  this class contains the `addBlock()` method for appending a block to the end of the 
+  block chain along with a `replaceChain()` method for replacing the chain assuming
+  the chan has passed the `isValidChain()` method
+*/
+
 class Blockchain {
   constructor() {
     this.chain = [Block.genesis()];
@@ -43,13 +50,19 @@ class Blockchain {
     for (let i = 1; i < chain.length; i++) {
       const block = chain[i]; //current block
       const actualLastHash = chain[i - 1].hash;
-      const { timestamp, hash, lastHash, data } = block; // destructuring block to access values
+      const { timestamp, hash, lastHash, data, nonce, difficulty } = block; // destructuring block to access values
       //comparing lastHash to what it should be
       if (actualLastHash !== lastHash) {
         return false;
       }
       //creating the hash to validate against
-      const validHash = cryptoHash(timestamp, lastHash, data);
+      const validHash = cryptoHash(
+        timestamp,
+        lastHash,
+        data,
+        nonce,
+        difficulty
+      );
       //making sure our hash is correct
       if (hash !== validHash) {
         return false;

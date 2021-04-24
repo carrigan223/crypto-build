@@ -66,7 +66,7 @@ describe("Blockchain", () => {
       logMock = jest.fn();
 
       global.console.error = errorMock;
-      global.console.log = logMock;//catching logs and errors during dev
+      global.console.log = logMock; //catching logs and errors during dev
     });
     describe("when the new chain is not longer", () => {
       beforeEach(() => {
@@ -105,9 +105,15 @@ describe("Blockchain", () => {
       });
 
       describe("and the chain is valid", () => {
-        it("does replace the chain", () => {
+        beforeEach(() => {
           blockchain.replaceChain(newChain.chain);
+        });
+        it("does replace the chain", () => {
           expect(blockchain.chain).toEqual(newChain.chain);
+        });
+
+        it("logs a console message", () => {
+          expect(logMock).toHaveBeenCalled();
         });
       });
     });
