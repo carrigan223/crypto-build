@@ -23,17 +23,24 @@ class Block {
   method.
   */
   static mineBlock({ lastBlock, data }) {
-    let hash, timestamp;
     const lastHash = lastBlock.hash;
-    const { difficulty } = lastBlock;
+    let hash, timestamp;
+    let { difficulty } = lastBlock;
     let nonce = 0;
 
     //repeatedly running the hashing algorithm
     //until the dificulty params are met, upon completion producing
     //timestamp
+    //also adjusting the difficulty level dependent on the amount of time taken
+    //for the new block in comparison to the last block using the `adjustDiffuculty()`
+    //static method to maintain block contruction within our MINE_RATE
     do {
       nonce++;
       timestamp = Date.now();
+      difficulty = Block.adjustDifficulty({
+        originalBlock: lastBlock,
+        timestamp,
+      });
       hash = cryptoHash(timestamp, lastHash, data, nonce, difficulty);
     } while (hash.substring(0, difficulty) !== "0".repeat(difficulty));
 
