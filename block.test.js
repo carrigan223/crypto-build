@@ -1,12 +1,12 @@
 const Block = require("./block");
-const { GENESIS_DATA } = require("./config");
+const { GENESIS_DATA, MINE_RATE } = require("./config");
 const cryptoHash = require("./crypto-hash");
 
 //describe is a jest function to test
 //it takes to params, the name and then a callback function
 
 describe("Block", () => {
-  const timestamp = "time-test";
+  const timestamp = 2000;
   const lastHash = "lastHash-test";
   const hash = "hash-test";
   const data = ["block", "data"];
@@ -79,6 +79,26 @@ describe("Block", () => {
       expect(minedBlock.hash.substring(0, minedBlock.difficulty)).toEqual(
         "0".repeat(minedBlock.difficulty)
       );
+    });
+  });
+
+  describe("adjustDifficulty()", () => {
+    it("it raises the difficulty for a quickly mined block", () => {
+      expect(
+        Block.adjustDifficulty({
+          originalBlock: block,
+          timestamp: block.timestamp + MINE_RATE - 100,
+        })
+      ).toEqual(block.difficulty + 1);
+    });
+
+    it("it lowers the difficulty for a slowly mined block", () => {
+      expect(
+        Block.adjustDifficulty({
+          originalBlock: block,
+          timestamp: block.timestamp + MINE_RATE + 100,
+        })
+      ).toEqual(block.difficulty - 1);
     });
   });
 });
