@@ -1,3 +1,4 @@
+const hexToBinary = require("hex-to-binary"); //importing hex-to-binary-library
 const { GENESIS_DATA, MINE_RATE } = require("./config"); //first block hardcoded data
 const cryptoHash = require("./crypto-hash"); //hashing function
 
@@ -42,7 +43,11 @@ class Block {
         timestamp,
       });
       hash = cryptoHash(timestamp, lastHash, data, nonce, difficulty);
-    } while (hash.substring(0, difficulty) !== "0".repeat(difficulty));
+    } while (
+      //using 256 bit binary to fine tune the difficulty as opposed to 64 bit hex
+      //will still be displayed as 64 bit though in our data
+      hexToBinary(hash).substring(0, difficulty) !== "0".repeat(difficulty)
+    );
 
     return new Block({
       timestamp,
@@ -56,7 +61,10 @@ class Block {
 
   static adjustDifficulty({ originalBlock, timestamp }) {
     //desruct difficulty
-    const { difficulty } = originalBlock;
+    let { difficulty } = originalBlock;
+    //makes sure difficulty is never going to be negative number
+    //will terminate if so
+    if (difficulty < 1) return (difficulty = 1);
     //if difference is greater then mine rate we want to lower difficulty
     if (timestamp - originalBlock.timestamp > MINE_RATE) return difficulty - 1;
     //increase difficulty unless we have exceeded mine rate
