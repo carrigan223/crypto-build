@@ -71,7 +71,9 @@ class Blockchain {
       //verifying the difficulty behavior is correct
       //comparing the last difficulty and current difficulty
       //if difference is greater then one there has been tampering
-      if (lastDifficulty - difficulty > 1) {
+      //using `Math.abs` to give an absolute value to protect against raising
+      //also
+      if (Math.abs(lastDifficulty - difficulty) > 1) {
         return false;
       }
     }
