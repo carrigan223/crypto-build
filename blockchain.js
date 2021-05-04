@@ -50,6 +50,7 @@ class Blockchain {
     for (let i = 1; i < chain.length; i++) {
       const block = chain[i]; //current block
       const actualLastHash = chain[i - 1].hash;
+      const lastDifficulty = chain[i - 1].difficulty;
       const { timestamp, hash, lastHash, data, nonce, difficulty } = block; // destructuring block to access values
       //comparing lastHash to what it should be
       if (actualLastHash !== lastHash) {
@@ -65,6 +66,12 @@ class Blockchain {
       );
       //making sure our hash is correct
       if (hash !== validHash) {
+        return false;
+      }
+      //verifying the difficulty behavior is correct
+      //comparing the last difficulty and current difficulty
+      //if difference is greater then one there has been tampering
+      if (lastDifficulty - difficulty > 1) {
         return false;
       }
     }
