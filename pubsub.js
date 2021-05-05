@@ -18,8 +18,7 @@ class PubSub {
     //`createClient()` gives subsriber the built in method
     //to allow subscriber to subscribe to `CHANNELS` and all its props
     this.subscribeToChannels();
-    // this.subscriber.subscribe(CHANNELS.TEST);
-    // this.subscriber.subscribe(CHANNELS.BLOCKCHAIN);
+
     //using the `on` method from which takes in message and callback
     this.subscriber.on("message", (channel, message) =>
       this.handleMessage(channel, message)
@@ -46,8 +45,15 @@ class PubSub {
   }
   //calling publish with channel and message as
   //object(helps avoid specifity with the params)
+  //`publish()` to avoid message redundancy is using callbacks
+  //to first unsubscribe then send message the resubscribe upon
+  //completion, this avoids unnescarry logs to sender
   publish({ channel, message }) {
-    this.publisher.publish(channel, message);
+    this.subscriber.unsubscribe(channel, () => {
+      this.publisher.publish(channel, message, () => {
+        this.subscriber.subscribe(channel);
+      });
+    });
   }
 
   //takes care of broadcasting the blockchain
