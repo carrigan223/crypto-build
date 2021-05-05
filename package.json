@@ -10,13 +10,15 @@
   "scripts": {
     "test": "jest --watchAll",
     "start": "node index.js",
-    "dev": "nodemon index.js",
+    "dev": "npm run start-redis && nodemon index.js",
+    "dev-peer": "cross-env GENERATE_PEER_PORT='true'",
     "start-redis": "redis-server --daemonize yes"
   },
   "keywords": [],
   "author": "Andrew Carrigan",
   "license": "ISC",
   "devDependencies": {
+    "cross-env": "^5.2.0",
     "jest": "^23.6.0"
   },
   "dependencies": {

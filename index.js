@@ -1,9 +1,13 @@
 const express = require("express"); //importing in express functioin from express model
 // const bodyParser = require("body-parser");//importing JSON body parser middleware
 const Blockchain = require("./blockchain"); //importing blockchain from local files
+const PubSub = require("./pubsub"); //importing local pubsub class
 
 const app = express(); //initializing app using express function
 const blockchain = new Blockchain(); //creating a main blockchain with new instance
+const pubsub = new PubSub({ blockchain }); //creating new instance of `PubSub` class
+
+setTimeout(() => pubsub.broadCastChain(), 1000);
 
 app.use(express.json());
 
