@@ -1,6 +1,6 @@
 const hexToBinary = require("hex-to-binary"); //importing hex-to-binary-library
-const { GENESIS_DATA, MINE_RATE } = require("./config"); //first block hardcoded data
-const cryptoHash = require("./crypto-hash"); //hashing function
+const { GENESIS_DATA, MINE_RATE } = require("../config"); //first block hardcoded data
+const cryptoHash = require("../util/crypto-hash"); //hashing function
 
 //creating class instance of a block
 //contructor arguments as object to give us the ability to accesswith key

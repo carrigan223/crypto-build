@@ -4,7 +4,7 @@
     a consistent mine rate in line with what we have set
 */
 
-const Blockchain = require("./blockchain"); //importing block chain
+const Blockchain = require("../blockchain"); //importing block chain
 
 const blockchain = new Blockchain(); //creating ne instance of blockchain
 

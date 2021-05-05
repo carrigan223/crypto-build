@@ -1,7 +1,7 @@
 const hexToBinary = require("hex-to-binary");
 const Block = require("./block");
-const { GENESIS_DATA, MINE_RATE } = require("./config");
-const cryptoHash = require("./crypto-hash");
+const { GENESIS_DATA, MINE_RATE } = require("../config");
+const cryptoHash = require("../util/crypto-hash");
 
 //describe is a jest function to test
 //it takes to params, the name and then a callback function

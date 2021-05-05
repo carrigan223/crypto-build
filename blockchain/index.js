@@ -1,7 +1,7 @@
 //creating the class instance of blockchain
 //importing Block class from block.js
 const Block = require("./block");
-const cryptoHash = require("./crypto-hash");
+const cryptoHash = require("../util/crypto-hash");
 
 /* 
   Class instance of the blockchain containg the true chain at this.chain,

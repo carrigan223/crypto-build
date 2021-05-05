@@ -2,7 +2,7 @@ const express = require("express"); //importing in express functioin from expres
 const request = require("request"); //importing request from request
 // const bodyParser = require("body-parser");//importing JSON body parser middleware
 const Blockchain = require("./blockchain"); //importing blockchain from local files
-const PubSub = require("./pubsub"); //importing local pubsub class
+const PubSub = require("./app/pubsub"); //importing local pubsub class
 
 const app = express(); //initializing app using express function
 const blockchain = new Blockchain(); //creating a main blockchain with new instance
