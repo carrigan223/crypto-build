@@ -1,7 +1,7 @@
 // blockchain test file
 const Blockchain = require(".");
 const Block = require("./block");
-const cryptoHash = require("../util/crypto-hash");
+const { cryptoHash } = require("../util/index");
 
 describe("Blockchain", () => {
   let blockchain, newChain, originalChain;
