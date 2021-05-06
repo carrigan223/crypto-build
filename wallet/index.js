@@ -1,5 +1,5 @@
 const { STARTING_BALANCE } = require("../config"); //importing starting wallet balance
-const cryptoHash = require("../util/crypto-hash");
+const cryptoHash = require("../util/crypto-hash");//importing cryptoHash function
 const { ec } = require("../util/index"); //importing the elliptical curve generator
 
 //creating the wallet class including the constructors of `balance` and `keyPair`
