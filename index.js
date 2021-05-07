@@ -3,9 +3,13 @@ const request = require("request"); //importing request from request
 // const bodyParser = require("body-parser");//importing JSON body parser middleware
 const Blockchain = require("./blockchain"); //importing blockchain from local files
 const PubSub = require("./app/pubsub"); //importing local pubsub class
+const TransactionPool = require("./wallet/transaction-pool"); //importing local TransactionPool class
+const Wallet = require("./wallet/index"); //importing local wallet class
 
 const app = express(); //initializing app using express function
 const blockchain = new Blockchain(); //creating a main blockchain with new instance
+const transactionPool = new TransactionPool(); //initialinzing transaction pool
+const wallet = new Wallet(); //initializing new wallet class
 const pubsub = new PubSub({ blockchain }); //creating new instance of `PubSub` class
 
 const DEFAULT_PORT = 3000; //declaring our default port
@@ -30,6 +34,37 @@ app.post("/api/mine", (req, res) => {
 
   //redirecting to `api/blocks` to view added block
   res.redirect("/api/blocks");
+});
+
+//post request to allow official transaction using wallet
+app.post("/api/transact", (req, res) => {
+  //detructuring the amount and recipient
+  const { amount, recipient } = req.body;
+
+  //checking if new or existing transaction
+  let transaction = transactionPool.existingTransaction({
+    inputAddress: wallet.publicKey,
+  });
+
+  //using those values to creat a transaction with the wallets method
+  //assuming no errors(checking with try block) and new transaction o
+  //therwise we are updateing existing
+  try {
+    if (transaction) {
+      transaction.update({ senderWallet: wallet, recipient, amount });
+    } else {
+      transaction = wallet.createTransaction({ recipient, amount });
+    }
+  } catch (error) {
+    return res.status(400).json({ type: "error", message: error.message });
+  }
+
+  //setting that transaction to the pool
+  transactionPool.setTransaction(transaction);
+
+  console.log("transactionPool: ", transactionPool);
+  //senders response is the transaction object
+  res.json({ type: "success", transaction });
 });
 
 let PEER_PORT;
