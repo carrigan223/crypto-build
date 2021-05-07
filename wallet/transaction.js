@@ -62,8 +62,22 @@ class Transaction {
     return true;
   }
 
+  //the update method is takeing in the `senderWallet` the destination `recipient`
+  //and the transaction `amount`, we are then verifying the `senderWallet` has a sufficient balance
+  //to make the transaction. we are then checking wheter this `recipient` is an existing `recipient`
+  //or a new recipient and setting the `amount` or if existing updating the `amount`
+  //we are then subtracting the transaction amount from the senders balance and creating a new
+  //input and to give the transaction a signature
   update({ senderWallet, recipient, amount }) {
-    this.outputMap[recipient] = amount;
+    if (amount > this.outputMap[senderWallet.publicKey]) {
+      throw new Error("This Amount Exceeds This Wallets Balance");
+    }
+
+    if (!this.outputMap[recipient]) {
+      this.outputMap[recipient] = amount;
+    } else {
+      this.outputMap[recipient] = this.outputMap[recipient] + amount;
+    }
 
     this.outputMap[senderWallet.publicKey] =
       this.outputMap[senderWallet.publicKey] - amount;
