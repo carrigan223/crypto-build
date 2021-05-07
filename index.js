@@ -10,7 +10,7 @@ const app = express(); //initializing app using express function
 const blockchain = new Blockchain(); //creating a main blockchain with new instance
 const transactionPool = new TransactionPool(); //initialinzing transaction pool
 const wallet = new Wallet(); //initializing new wallet class
-const pubsub = new PubSub({ blockchain }); //creating new instance of `PubSub` class
+const pubsub = new PubSub({ blockchain, transactionPool }); //creating new instance of `PubSub` class
 
 const DEFAULT_PORT = 3000; //declaring our default port
 
@@ -62,9 +62,16 @@ app.post("/api/transact", (req, res) => {
   //setting that transaction to the pool
   transactionPool.setTransaction(transaction);
 
-  console.log("transactionPool: ", transactionPool);
+  //broadcasting the transaction to all subscribers
+  pubsub.broadCastTransaction(transaction);
+
   //senders response is the transaction object
   res.json({ type: "success", transaction });
+});
+
+//GET method for retrieving transaction pool
+app.get("/api/transaction-pool-map", (req, res) => {
+  res.json(transactionPool.transactionMap);
 });
 
 let PEER_PORT;
