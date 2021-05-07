@@ -6,7 +6,9 @@ class TransactionPool {
   setTransaction(transaction) {
     this.transactionMap[transaction.id] = transaction;
   }
-
+  setMap(transacationMap) {
+    this.transactionMap = transacationMap;
+  }
   //we are generating an array of transactions then using the find() method
   //to find any existing transactions
   existingTransaction({ inputAddress }) {

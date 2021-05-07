@@ -83,7 +83,7 @@ if (process.env.GENERATE_PEER_PORT === "true") {
 //making an http request, if no errors we are
 //receiveing the root chain in the body than parsing the json
 //object and passing it to the blockchain `replaceChain()` method
-const syncChains = () => {
+const syncWithRootState = () => {
   request(
     { url: `${ROOT_NODE_ADDRESS}/api/blocks` },
     (error, response, body) => {
@@ -95,17 +95,32 @@ const syncChains = () => {
       }
     }
   );
+
+  request(
+    { url: `${ROOT_NODE_ADDRESS}/api/transaction-pool-map` },
+    (error, response, body) => {
+      if (!error && response.statusCode === 200) {
+        const rootTransactionPoolMap = JSON.parse(body);
+
+        console.log(
+          "Replace Transaction-pool-map on sync with:",
+          rootTransactionPoolMap
+        );
+        transactionPool.setMap(rootTransactionPoolMap);
+      }
+    }
+  );
 };
 
 //if `PEER_PORT` is undefined set back to default
 const PORT = PEER_PORT || DEFAULT_PORT;
 //using the apps listen method to run on default or peer port
-//once listening we are immediatly calling `syncChains()` to get the
+//once listening we are immediatly calling `syncWithRootState()` to get the
 //most current chain if run on `PEER_PORT`
 app.listen(PORT, () => {
   console.log(`The Application is listening on localhost:${PORT}`);
 
   if (PORT !== DEFAULT_PORT) {
-    syncChains();
+    syncWithRootState();
   }
 });
