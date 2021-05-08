@@ -5,12 +5,19 @@ const Blockchain = require("./blockchain"); //importing blockchain from local fi
 const PubSub = require("./app/pubsub"); //importing local pubsub class
 const TransactionPool = require("./wallet/transaction-pool"); //importing local TransactionPool class
 const Wallet = require("./wallet/index"); //importing local wallet class
+const TransactionMiner = require("./app/transaction-miner"); //importing transaction miner class
 
 const app = express(); //initializing app using express function
 const blockchain = new Blockchain(); //creating a main blockchain with new instance
 const transactionPool = new TransactionPool(); //initialinzing transaction pool
 const wallet = new Wallet(); //initializing new wallet class
-const pubsub = new PubSub({ blockchain, transactionPool }); //creating new instance of `PubSub` class
+const pubSub = new PubSub({ blockchain, transactionPool }); //creating new instance of `PubSub` class
+const transactionMiner = new TransactionMiner({
+  blockchain,
+  transactionPool,
+  wallet,
+  pubSub,
+}); //initializng a Miner
 
 const DEFAULT_PORT = 3000; //declaring our default port
 
@@ -30,7 +37,7 @@ app.post("/api/mine", (req, res) => {
   //the data from the request body and add a new block
   blockchain.addBlock({ data });
   //adding a call so `pubsub` broadcasts chain right away
-  pubsub.broadCastChain();
+  pubSub.broadCastChain();
 
   //redirecting to `api/blocks` to view added block
   res.redirect("/api/blocks");
@@ -63,7 +70,7 @@ app.post("/api/transact", (req, res) => {
   transactionPool.setTransaction(transaction);
 
   //broadcasting the transaction to all subscribers
-  pubsub.broadCastTransaction(transaction);
+  pubSub.broadCastTransaction(transaction);
 
   //senders response is the transaction object
   res.json({ type: "success", transaction });
@@ -72,6 +79,12 @@ app.post("/api/transact", (req, res) => {
 //GET method for retrieving transaction pool
 app.get("/api/transaction-pool-map", (req, res) => {
   res.json(transactionPool.transactionMap);
+});
+
+app.get("/api/mine-transactions", (req, res) => {
+  transactionMiner.mineTransaction();
+
+  res.redirect("/api/blocks");
 });
 
 let PEER_PORT;
