@@ -21,7 +21,14 @@ class Wallet {
   //throwing an error if insufficient funds
   //otherwise creating a new instance of a transaction
   //note the this keyword refrencing the methods class
-  createTransaction({ recipient, amount }) {
+  createTransaction({ recipient, amount, chain }) {
+    if (chain) {
+      this.balance = Wallet.calculateBalance({
+        chain,
+        address: this.publicKey,
+      });
+    }
+
     if (amount > this.balance) {
       throw Error("Amount Exceeds This Wallets Balance");
     }
