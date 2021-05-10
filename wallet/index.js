@@ -28,6 +28,28 @@ class Wallet {
 
     return new Transaction({ amount, senderWallet: this, recipient });
   }
+
+  //`calcualteBalance` is reading over the chain and looking for transactions in which
+  //the addrees being put through the params match, if succesful in locating that address it
+  //is then taking the amount and adding it to the `outputsTotal` once the whole chain has been assesed
+  //the outputsTotal is then added to the starting balance
+  static calculateBalance({ address, chain }) {
+    let outputsTotal = 0;
+
+    for (let i = 1; i < chain.length; i++) {
+      const block = chain[i];
+
+      for (let transaction of block.data) {
+        const addressOutput = transaction.outputMap[address];
+
+        if (addressOutput) {
+          outputsTotal = outputsTotal + addressOutput;
+        }
+      }
+    }
+
+    return STARTING_BALANCE + outputsTotal;
+  }
 }
 
 module.exports = Wallet;
