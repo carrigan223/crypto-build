@@ -1,5 +1,6 @@
 const express = require("express"); //importing in express functioin from express model
 const request = require("request"); //importing request from request
+const path = require("path");
 // const bodyParser = require("body-parser");//importing JSON body parser middleware
 const Blockchain = require("./blockchain"); //importing blockchain from local files
 const PubSub = require("./app/pubsub"); //importing local pubsub class
@@ -101,6 +102,10 @@ app.get("/api/wallet-info", (req, res) => {
       address,
     }),
   });
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "./client/index.html"));
 });
 
 let PEER_PORT;
