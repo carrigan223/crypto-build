@@ -1,7 +1,10 @@
 //creating the class instance of blockchain
 //importing Block class from block.js
+const Wallet = require("../wallet/index");
 const Block = require("./block");
+const Transaction = require("../wallet/transaction");
 const { cryptoHash } = require("../util/index");
+const { REWARD_INPUT, MINING_REWARD } = require("../config");
 
 /* 
   Class instance of the blockchain containg the true chain at this.chain,
@@ -24,22 +27,82 @@ class Blockchain {
     //pushing the new block to the end of the chain
     this.chain.push(newBlock);
   }
-
-  replaceChain(chain, onSuccess) {
+  //method to replace the `chain`, this method first runs through multiple validation
+  //checks befor finally replacing the `chain`
+  replaceChain(chain, validateTransactions, onSuccess) {
     if (chain.length <= this.chain.length) {
-      //add error message
       console.error("incoming chain must be longer then current");
       return;
     }
     if (!Blockchain.isValidChain(chain)) {
-      //add error message
       console.error("incoming chain is not validated against the the current");
+      return;
+    }
+    if (validateTransactions && !this.validTransactionData({ chain })) {
+      console.error("The incoming Chain has invalid transaction data");
       return;
     }
 
     if (onSuccess) onSuccess();
     console.log("Replacing current chain with ", chain);
     this.chain = chain;
+  }
+
+  //`validtransactionData` is checking the local chain strating
+  //at first block after thegenesis block. we are then checking that only
+  //one reward transacation exist forthere should only be one reward per block.
+  //we are then verifying that if we find a reward the reward amount is the valid amount
+  //set in `MINING_REWARD`. we are then checking if the transaction is valid followed by
+  //whether the the wallet balance is true or malformed. finnally we are making sure there are no
+  //identical transactions.
+  validTransactionData({ chain }) {
+    for (let i = 1; i < chain.length; i++) {
+      const block = chain[i];
+      const transactionSet = new Set();
+      let rewardTransactionCount = 0;
+
+      for (let transaction of block.data) {
+        if (transaction.input.address == REWARD_INPUT.address) {
+          rewardTransactionCount += 1;
+
+          if (rewardTransactionCount > 1) {
+            console.error("Miner Reward Exceeds Limit");
+            return false;
+          }
+
+          if (Object.values(transaction.outputMap)[0] !== MINING_REWARD) {
+            console.error("Miner reward amount is invalid");
+            return false;
+          }
+        } else {
+          if (!Transaction.validTransaction(transaction)) {
+            console.error("Invalid Transaction");
+            return false;
+          }
+
+          const trueBalance = Wallet.calculateBalance({
+            chain: this.chain,
+            address: transaction.input.address,
+          });
+
+          if (transaction.input.amount !== trueBalance) {
+            console.error("Invalid Input Amount");
+            return false;
+          }
+
+          if (transactionSet.has(transaction)) {
+            console.error(
+              "An identical transaction appears multiple times in the block"
+            );
+            return false;
+          } else {
+            transactionSet.add(transaction);
+          }
+        }
+      }
+    }
+
+    return true;
   }
 
   static isValidChain(chain) {
