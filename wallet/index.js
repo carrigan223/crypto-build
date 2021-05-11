@@ -39,23 +39,34 @@ class Wallet {
   //`calcualteBalance` is reading over the chain and looking for transactions in which
   //the addrees being put through the params match, if succesful in locating that address it
   //is then taking the amount and adding it to the `outputsTotal` once the whole chain has been assesed
-  //the outputsTotal is then added to the starting balance
+  //the outputsTotal is then added to the starting balance. `calculateBalance` is looping in reverse starting
+  //at the most recent block and stoppin prior to the genesis block.
   static calculateBalance({ address, chain }) {
+    let hasConductedTransaction = false;
     let outputsTotal = 0;
 
-    for (let i = 1; i < chain.length; i++) {
+    for (let i = chain.length - 1; i > 0; i--) {
       const block = chain[i];
 
       for (let transaction of block.data) {
+        if (transaction.input.address === address) {
+          hasConductedTransaction = true;
+        }
         const addressOutput = transaction.outputMap[address];
 
         if (addressOutput) {
           outputsTotal = outputsTotal + addressOutput;
         }
       }
+
+      if (hasConductedTransaction) {
+        break;
+      }
     }
 
-    return STARTING_BALANCE + outputsTotal;
+    return hasConductedTransaction
+      ? outputsTotal
+      : STARTING_BALANCE + outputsTotal;
   }
 }
 
