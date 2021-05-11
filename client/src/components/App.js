@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Blocks from "./Blocks";
 // import { render } from "react-dom";
 
 class App extends Component {
@@ -18,6 +19,8 @@ class App extends Component {
         <div>Welcome to the Blockchain...</div>
         <div>Address: {address}</div>
         <div>Balance: {balance}</div>
+        <br />
+        <Blocks />
       </div>
     );
   }
