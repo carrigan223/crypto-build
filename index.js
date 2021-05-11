@@ -25,6 +25,7 @@ const DEFAULT_PORT = 3000; //declaring our default port
 const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
 
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "client/dist")));
 
 //using the get method to send the blockchain instance as a get response
 app.get("/api/blocks", (req, res) => {
@@ -105,7 +106,7 @@ app.get("/api/wallet-info", (req, res) => {
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "./client/index.html"));
+  res.sendFile(path.join(__dirname, "./client/dist/index.html"));
 });
 
 let PEER_PORT;
