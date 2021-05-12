@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Blocks from "./Blocks";
 import logo from "../assets/logo.png";
+import { Link } from "react-router-dom";
 // import { render } from "react-dom";
 
 class App extends Component {
@@ -21,13 +21,15 @@ class App extends Component {
         <br />
         <h1 className="Title">Welcome to the Blockchain...</h1>
         <br />
+        <div>
+          <Link to="/Blocks">View the Chain</Link>
+        </div>
+        <br />
         <div className="WalletInfo">
           <div className="Address">Address: {address}</div>
           <br />
           <div>Balance: {balance}</div>
         </div>
-        <br />
-        <Blocks />
       </div>
     );
   }

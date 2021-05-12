@@ -1,6 +1,17 @@
 import React from "react";
 import { render } from "react-dom";
+import { Route, Router, Switch } from "react-router-dom";
+import history from "./history";
 import App from "./components/App";
-import "./index.css"
+import Blocks from "./components/Blocks";
+import "./index.css";
 
-render(<App />, document.getElementById("root"));
+render(
+  <Router history={history}>
+    <Switch>
+      <Route exact path="/" component={App} />
+      <Route path="/Blocks" component={Blocks} />
+    </Switch>
+  </Router>,
+  document.getElementById("root")
+);
