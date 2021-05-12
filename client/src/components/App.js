@@ -22,7 +22,8 @@ class App extends Component {
         <h1 className="Title">Welcome to the Blockchain...</h1>
         <br />
         <div className="WalletInfo">
-          <div>Address: {address}</div>
+          <div className="Address">Address: {address}</div>
+          <br />
           <div>Balance: {balance}</div>
         </div>
         <br />
