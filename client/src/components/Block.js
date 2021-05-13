@@ -44,7 +44,9 @@ class Block extends Component {
 
     return (
       <div>
-        <div>Transactions: {dataDisplay}</div>
+        <div>
+          <h4 className="TransactionHeader">Transactions:</h4> {dataDisplay}
+        </div>
         <Button
           bsStyle="danger"
           bsSize="small"
@@ -59,12 +61,17 @@ class Block extends Component {
   render() {
     const { timestamp, hash } = this.props.block;
 
-    const hashDisplay = `${hash.substring(0, 15)}...`;
+    const hashDisplay = `${hash.substring(0, 25)}...`;
 
     return (
       <div className="Block">
-        <div>Hash: {hashDisplay}</div>
-        <div>Timestamp: {new Date(timestamp).toLocaleString()}</div>
+        <div>
+          <div className="WalletLabel">Hash:</div> {hashDisplay}
+        </div>
+        <div>
+          <div className="WalletLabel">Timestamp:</div>{" "}
+          {new Date(timestamp).toLocaleString()}
+        </div>
         {this.displayTransaction}
       </div>
     );
