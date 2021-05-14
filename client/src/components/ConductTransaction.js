@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { FormGroup, FormControl } from "react-bootstrap";
+import { FormGroup, FormControl, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo.png";
+import Navbar from "./Navbar";
+import history from "../history";
 
 class ConductTransaction extends Component {
   state = {
@@ -21,16 +22,25 @@ class ConductTransaction extends Component {
     }
   };
 
+  conductTransaction = () => {
+    const { recipient, amount } = this.state;
+
+    fetch(`${document.location.origin}/api/transact`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ recipient, amount }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        alert(json.message || json.type);
+        history.push("/transaction-pool");
+      });
+  };
+
   render() {
-    console.log("State: ", this.state);
     return (
       <div className="ViewContainer">
-        <div className="LogoContainer">
-          <img className="MiniLogo" src={logo}></img>
-          <div>
-            <Link to="/">Back To Home</Link>
-          </div>
-        </div>
+        <Navbar />
         <div className="ConductTransactioin">
           <h3 className="LargeTitle">Conduct Transaction</h3>
           <FormGroup>
@@ -51,6 +61,11 @@ class ConductTransaction extends Component {
               onChange={this.updateAmount}
             />
           </FormGroup>
+          <div>
+            <Button bsStyle="danger" onClick={this.conductTransaction}>
+              Submit
+            </Button>
+          </div>
         </div>
       </div>
     );

@@ -2,25 +2,22 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Block from "./Block";
 import logo from "../assets/logo.png";
+import Navbar from "./Navbar";
 
 class Blocks extends Component {
   state = { blocks: [] };
 
   componentDidMount() {
-    fetch("http://localhost:3000/api/blocks")
+    fetch(`${document.location.origin}/api/blocks`)
       .then((response) => response.json())
       .then((json) => this.setState({ blocks: json }));
   }
 
   render() {
+    console.log("block", this.state.blocks);
     return (
       <div className="ViewContainer">
-        <div className="LogoContainer">
-          <img className="MiniLogo" src={logo}></img>
-          <div>
-            <Link to="/">Back To Home</Link>
-          </div>
-        </div>
+        <Navbar />
         <br />
         <h3 className="LargeTitle">Blocks</h3>
         {this.state.blocks.map((block) => {
