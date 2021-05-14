@@ -1,0 +1,208 @@
+body {
+  background-color: whitesmoke;
+  color: black;
+  text-align: center;
+  font-family: "Cairo", Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  padding-top: 5%;
+  word-wrap: break-word;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+.HomeContainerTop {
+  background-image: linear-gradient(to bottom right, red, yellow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 5%;
+  -moz-box-shadow: 0px 0px 20px black;
+  -webkit-box-shadow: 0px 0px 20px black;
+  box-shadow: 0px 0px 20px black;
+  border-bottom: 2px solid black;
+}
+
+.HomeContainerBottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+a {
+  border: 2px solid red;
+  border-radius: 10px;
+  color: black;
+  background-color: white;
+  padding: 5px 10px;
+  text-shadow: 1px 1px 10px grey;
+  font-family: "Bebas Neue";
+  box-shadow: 2px 3px 9px grey;
+  -webkit-box-shadow: 2px 3px 9px grey;
+  -moz-box-shadow: 2px 3px 9px grey;
+}
+
+a:hover {
+  box-shadow: 0px 0px 20px red;
+  border: 2px solid red;
+  background-color: red;
+  color: black;
+  text-decoration: none;
+  padding: 5px 10px;
+  text-shadow: 1px 1px 10px white;
+  border-radius: 10px;
+  font-family: "Bebas Neue", Arial, Helvetica, sans-serif;
+}
+
+.Links {
+  width: 100vw;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.ConductTransactioin {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+.FormRow {
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
+  box-shadow: 2px 3px 9px grey;
+  -moz-box-shadow: 2px 3px 9px grey;
+  -webkit-box-shadow: 2px 3px 9px grey;
+}
+
+.FormRow:focus {
+  border-color: red;
+  box-shadow: 2px 2px 19px red;
+  -moz-box-shadow: 2px 2px 19px red;
+  -webkit-box-shadow: 2px 2px 19px red;
+}
+
+.FormRow::placeholder {
+  color: grey;
+}
+
+.LargeTitle {
+  margin: 1.5rem;
+  font-size: 3rem;
+  text-shadow: 0px 0px 10px red;
+  font-family: "Bebas Neue", Arial, Helvetica, sans-serif;
+}
+
+.WalletLabel {
+  font-family: "Bebas Neue";
+}
+
+.logo {
+  width: 150px;
+  height: 150px;
+  background-color: black;
+  border-radius: 100%;
+  box-shadow: 2px 2px 20px black;
+  -moz-box-shadow: 2px 2px 20px black;
+  -webkit-box-shadow: 2px 2px 20px black;
+}
+
+.LogoContainer {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  padding: 1%;
+  background-color: black;
+  background-image: linear-gradient(to right, black, red, yellow);
+  border-bottom: 2px solid red;
+  height: 15vh;
+  align-items: center;
+  box-shadow: 0px 0px 20px black;
+  -moz-box-shadow: 0px 0px 20px black;
+  -webkit-box-shadow: 0px 0px 20px black;
+}
+
+.MiniLogo {
+  height: 50px;
+  width: 50px;
+  margin-right: auto;
+  background-color: black;
+  border-radius: 100%;
+  box-shadow: 2px 2px 20px white;
+}
+
+.BlockSeperator {
+  background-image: linear-gradient(to right, red, orange, yellow);
+  height: 5px;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 2px 2px 7px grey;
+}
+
+.Transaction {
+  padding: 5%;
+}
+
+.TransactionHeader {
+  text-shadow: 2px 2px 8px grey;
+  color: yellow;
+  -webkit-text-stroke-width: 1.5px;
+  -webkit-text-stroke-color: red;
+}
+
+.ViewContainer {
+  margin-top: 20vh;
+}
+
+.Title {
+  text-shadow: 2px 2px 20px white;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Address {
+  margin: 26px;
+}
+
+.WalletInfo {
+  width: 500px;
+  border: 1px solid red;
+  border-radius: 9px;
+  box-shadow: 6px 6px 15px black;
+  padding: 1%;
+  margin: 10%;
+  background-color: white;
+  color: black;
+  font-weight: bolder;
+}
+
+.Block {
+  border: 1px solid red;
+  border-radius: 9px;
+  box-shadow: 6px 6px 15px black;
+  padding: 5%;
+  width: 50vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  background-color: white;
+  color: black;
+  font-weight: bolder;
+}
+
+
+/*# sourceMappingURL=/src.9ad09f98.css.map */
